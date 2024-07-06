@@ -1,0 +1,29 @@
+name: Composer Install and PHP Extensions Installation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  install_dependencies_and_extensions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4' # Anda bisa mengubah versi PHP sesuai kebutuhan
+          extensions: apcu, yaml
+          tools: composer
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Upload file
+        uses: actions/upload-artifact@v2
+        with:
+          name: files-with-depends
+          path: ./
